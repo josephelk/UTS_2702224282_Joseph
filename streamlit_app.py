@@ -1,15 +1,24 @@
 import streamlit as st
 from inference import BookingInference
-
 import gdown
 import os
 
-file_id = "1Rmd6MC5oVjTCLab5yYUix-sBKEUVACDe"
-url = f"https://drive.google.com/uc?id={file_id}"
-output = "hotel_booking_cancellation_model.pkl"
+# Ganti dengan file ID Anda
+FILE_ID = "1Rmd6MC5oVjTCLab5yYUix-sBKEUVACDe" 
+MODEL_PATH = "hotel_booking_cancellation_model.pkl"
 
-if not os.path.exists(output):
-    gdown.download(url, output, quiet=False)
+if not os.path.exists(MODEL_PATH):
+    try:
+        gdown.download(
+            f"https://drive.google.com/file/d/1Rmd6MC5oVjTCLab5yYUix-sBKEUVACDe/view?usp=sharing={FILE_ID}", 
+            MODEL_PATH, 
+            quiet=False
+        )
+    except Exception as e:
+        st.error(f"Failed to download model: {str(e)}")
+        st.stop()
+
+inferencer = BookingInference(MODEL_PATH)
 
 # Load model
 inferencer = BookingInference('hotel_booking_cancellation_model.pkl')
