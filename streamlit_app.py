@@ -6,7 +6,7 @@ import pandas as pd
 
 import os
 
-model_path = 'hotel_booking_cancellation_model.pkl'  # Path ke model yang ingin dimuat
+model_path = 'rf_booking_model.pkl'  # Path ke model yang ingin dimuat
 
 if os.path.exists(model_path):
     print("Model file found!")
