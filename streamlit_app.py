@@ -2,6 +2,17 @@ import streamlit as st
 import joblib
 import pandas as pd
 
+
+
+import os
+
+model_path = 'hotel_booking_cancellation_model.pkl'  # Path ke model yang ingin dimuat
+
+if os.path.exists(model_path):
+    print("Model file found!")
+else:
+    print(f"Model file {model_path} not found!")
+
 # Load model
 model = joblib.load("rf_booking_model.pkl")  # Model yang sudah dilatih
 
@@ -71,3 +82,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
