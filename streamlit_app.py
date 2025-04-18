@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 
 # Load the trained model
-model = joblib.load('rf_booking_model_compressed.pkl')
+model = joblib.load('rf_booking_model.pkl')
 
 # Function to get booking season based on month
 def get_season(month):
