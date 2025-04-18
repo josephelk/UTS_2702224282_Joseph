@@ -81,6 +81,6 @@ def main():
             st.success("Your booking is likely to be Canceled.")
         else: 
             st.success("Your booking is likely to be Not Canceled.")
-
+            
 if __name__ == "__main__":
     main()
