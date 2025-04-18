@@ -3,44 +3,57 @@ import pandas as pd
 import joblib
 
 # Load model
+# Model IPYNB
+# model = joblib.load("hotel_booking_cancellation_model.pkl")
+# Model OOP
 model = joblib.load("rf_booking_model.pkl")
+
 
 def user_input_form():
     with st.form("booking_form"):
-        # Input kolom yang dibutuhkan oleh model
-        total_guests = st.number_input("Total Guests", min_value=1, value=1)
-        market_segment_type = st.selectbox("Market Segment", ['Online', 'Corporate', 'Direct', 'Offline', 'Other'])
-        total_nights = st.number_input("Total Nights", min_value=1, value=1)
-        lead_time = st.number_input("Lead Time", min_value=1, value=10)
+        # Input columns that match the dataset
+        no_of_adults = st.number_input("Number of Adults", min_value=0, value=1)
+        no_of_children = st.number_input("Number of Children", min_value=0, value=1)
+        no_of_weekend_nights = st.number_input("Number of Weekend Nights", min_value=0,value=1)
+        no_of_week_nights = st.number_input("Number of Week Nights", min_value=0,value=2)
+        type_of_meal_plan = st.selectbox("Type of Meal Plan", ['Not Selected', 'Meal Plan 1', 'Meal Plan 2', 'Meal Plan 3'])
+        required_car_parking_space = st.selectbox("Required Car Parking Space", [0, 1])
+        room_type_reserved = st.selectbox("Room Type Reserved", ['Room_Type 1', 'Room_Type 2', 'Room_Type 3', 'Room_Type 4', 'Room_Type 5', 'Room_Type 6', 'Room_Type 7'])
+        lead_time = st.number_input("Lead Time", min_value=0, value=1)
+        market_segment_type = st.selectbox("Market Segment Type", ['Offline', 'Online', 'Corporate', 'Aviation', 'Complementary'])
+        repeated_guest = st.selectbox("Repeated Guest", [0, 1])
         no_of_previous_cancellations = st.number_input("Number of Previous Cancellations", min_value=0, value=0)
-        room_type = st.selectbox("Room Type", ['Single', 'Double', 'Suite', 'Penthouse'])
-        booking_changes = st.number_input("Booking Changes", min_value=0, value=0)
-        deposit_type = st.selectbox("Deposit Type", ['No Deposit', 'Refundable', 'Non Refundable'])
-        agent = st.number_input("Agent", min_value=1, value=1)
-        customer_type = st.selectbox("Customer Type", ['Contract', 'Transient', 'Group'])
-        previous_bookings_not_canceled = st.number_input("Previous Bookings Not Canceled", min_value=0, value=0)
-        booking_date = st.date_input("Booking Date")
-        cancellation_date = st.date_input("Cancellation Date")
-        lead_time = (pd.to_datetime(cancellation_date) - pd.to_datetime(booking_date)).days
+        no_of_previous_bookings_not_canceled = st.number_input("Previous Bookings Not Canceled", min_value=0, value=0)
+        avg_price_per_room = st.number_input("Average Price Per Room", min_value=0.0, value=100.0)
+        no_of_special_requests = st.number_input("Number of Special Requests", min_value=0, value=0)
+        total_guests = no_of_adults + no_of_children
+        total_nights = no_of_weekend_nights + no_of_week_nights
+        st.text_input("Total Guests", value=str(total_guests), disabled=True)
+        st.text_input("Total Nights", value=str(total_nights), disabled=True)
+        booking_season = st.selectbox("Booking Season", ['Fall', 'Winter', 'Spring', 'Summer'])
 
         submitted = st.form_submit_button("Predict")
     
     if submitted:
         # Return input data as dictionary
         return {
-            "total_guests": total_guests,
-            "market_segment_type": market_segment_type,
-            "total_nights": total_nights,
+            "no_of_adults": no_of_adults,
+            "no_of_children": no_of_children,
+            "no_of_weekend_nights": no_of_weekend_nights,
+            "no_of_week_nights": no_of_week_nights,
+            "type_of_meal_plan": type_of_meal_plan,
+            "required_car_parking_space": required_car_parking_space,
+            "room_type_reserved": room_type_reserved,
             "lead_time": lead_time,
+            "market_segment_type": market_segment_type,
+            "repeated_guest": repeated_guest,
             "no_of_previous_cancellations": no_of_previous_cancellations,
-            "room_type": room_type,
-            "booking_changes": booking_changes,
-            "deposit_type": deposit_type,
-            "agent": agent,
-            "customer_type": customer_type,
-            "previous_bookings_not_canceled": previous_bookings_not_canceled,
-            "booking_date": booking_date,
-            "cancellation_date": cancellation_date
+            "no_of_previous_bookings_not_canceled": no_of_previous_bookings_not_canceled,
+            "avg_price_per_room": avg_price_per_room,
+            "no_of_special_requests": no_of_special_requests,
+            "total_guests": total_guests,
+            "booking_season": booking_season,
+            "total_nights": total_nights
         }
     else:
         return None
