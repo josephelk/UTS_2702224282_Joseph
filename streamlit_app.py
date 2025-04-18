@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 
 # Load the trained model
-model = joblib.load('rf_booking_model.pkl')
+model = joblib.load('rf_booking_model_compressed.pkl')
 
 # Function to get booking season based on month
 def get_season(month):
@@ -37,6 +37,11 @@ def user_input_features():
     avg_price_per_room = st.number_input('Average Price per Room (Euro)', min_value=10, value=100)
     no_of_special_requests = st.number_input('Number of Special Requests', min_value=0, max_value=5, value=0)
 
+    # Calculate additional features based on inputs
+    total_guests = no_of_adults + no_of_children
+    total_nights = no_of_weekend_nights + no_of_week_nights
+    booking_season = get_season(arrival_month)
+
     # Map inputs to a dictionary
     data = {
         'no_of_adults': no_of_adults,
@@ -53,7 +58,9 @@ def user_input_features():
         'no_of_previous_bookings_not_canceled': no_of_previous_bookings_not_canceled,
         'avg_price_per_room': avg_price_per_room,
         'no_of_special_requests': no_of_special_requests,
-        'booking_season': get_season(arrival_month)
+        'total_guests': total_guests,  # Added missing column
+        'total_nights': total_nights,  # Added missing column
+        'booking_season': booking_season  # Added missing column
     }
     
     # Convert the input data to a DataFrame
