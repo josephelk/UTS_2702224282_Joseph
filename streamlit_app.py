@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 # Load model
-model = joblib.load("savedPickle/model.pkl")
+model = joblib.load("rf_booking_model.pkl")
 
 def user_input_form():
     with st.form("booking_form"):
